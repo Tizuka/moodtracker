@@ -1,0 +1,111 @@
+
+nav {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 10px 10px;
+    background: white;
+    gap: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-family: "Roboto Mono", sans-serif;
+    font-size: 0.8rem;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: none;
+    background-color: rgb(251, 201, 64);
+    color: black;
+}
+
+h3.title{
+  align-items: center;
+}
+
+.image-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; 
+    height: 45vh; 
+    
+}
+
+.image-size { 
+    width: 100px;
+    height: 100px;
+}
+
+
+.button-mood {
+    all: unset;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0ebeb;
+    width: 130px;
+    height: 130px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.button-mood:hover {
+    transform: scale(1.15);
+    border: 3px solid black;
+}
+
+.box-align{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 85vh; 
+}
+
+h1{
+  font-family: "Geist Pixel", sans-serif;
+  font-weight: 600;
+  font-size: 3.25rem; 
+}
+
+.active {
+    border: 3px solid black;
+
+}
+
+.btn-submit {
+    all: unset; 
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    font-family: "Geist Pixel", sans-serif; 
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 14px 40px; 
+    border-radius: 50px; /* Pill shape */
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease-in-out; 
+}
+
+.btn-submit:hover {
+    background-color: #333333; 
+    transform: scale(1.05); 
+}
+
+.btn-submit:active {
+    transform: scale(0.98); 
+}
+
+/* entries */

@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f0ebeb;
+    overflow: hidden;
+}
+
+nav {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 10px 10px;
+    background-color: #f0ebeb;
+    gap: 10px;
+}
+nav a {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-family: "Roboto Mono", sans-serif;
+    font-size: 0.8rem;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: none;
+    background-color: rgb(251, 201, 64);
+    color: black;
+}
+
+.align-entries {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    gap: 1px;
+}
+
+.entries-container {
+    margin: 5vh;
+    height: 80vh;
+    width: 55vh;
+    overflow-y: auto;
+    border-radius: 16px;
+}
+
+.align-entries h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Geist Pixel", sans-serif;
+  font-weight: 600;
+  font-size: 2.25rem; 
+    margin: 0;
+
+}
+
+.align-entries {
+    margin: 0;
+}
+
+.image-size { 
+    width: 50px;
+    height: 50px;
+}
+
+.entry-card {
+    width: 50vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin: 20px auto;
+    gap: 20px;
+    background-color: #ffffff;
+}
+.entry-date {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-family: "Roboto Mono", sans-serif;
+    font-size: 0.8rem;
+    margin: 10px;
+}
+
+.entry-date h1,
+.entry-date p {
+    margin: 0;
+}
+.entry-mood {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100px;
+    
+}
+.entry-mood h3 {
+
+    font-family: "Roboto Mono", sans-serif;
+    font-size: 0.8rem;
+    margin: 10px;
+}
+
+.light {
+  color: rgba(0, 0, 0, 0.256);  
+}
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+
+.entry-delete{
+    margin: auto 0;
+}
+
+.entry-delete img {
+    margin: auto 0;
+}
+.entry-delete button {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.entry-delete button:hover,
+.entry-delete button:active,
+.entry-delete button:focus {
+  background: none;
+  outline: none;
+  box-shadow: none;
+}
+
+
+.teste {
+    font-family: "Geist Pixel", sans-serif;
+    font-size: 3.8rem;
+    margin: 10px;
+    align-items: center;
+}
