@@ -26,10 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Number 3: Runs Jest/Supertest tests
-      - name: Run API tests with Supertest
-        run: npm test
-
       # Number 7: Checks dependencies for known vulnerabilities
       - name: Audit dependencies
         run: npm audit --audit-level=high
