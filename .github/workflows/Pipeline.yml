@@ -2,24 +2,74 @@ name: Pipeline
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
   pull_request:
-    branches: [ main, dev ]
+    branches: [main, dev]
 
-# JOB 1: Code Quality Check
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: "24"
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Run ESLint
-      run: npm run lint
+      # Downloads the repository into the GitHub runner
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # Installs and configures Node.js 24
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      # Installs dependencies from package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Number 3: Runs Jest/Supertest tests
+      - name: Run API tests with Supertest
+        run: npm test
+
+      # Number 7: Checks dependencies for known vulnerabilities
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      # Number 8: Validates compose.yaml
+      - name: Validate Docker Compose
+        run: docker compose config --quiet
+
+      # Number 9: Verifies that Docker images can be built
+      - name: Build Docker images
+        run: docker compose build
+
+      # Starts Express and MongoDB
+      - name: Start containers
+        run: docker compose up -d
+
+      # Numbers 5 and 6:
+      # Waits for the /health endpoint and performs a smoke test
+      - name: Run smoke test
+        shell: bash
+        run: |
+          for attempt in {1..20}; do
+            echo "Health check attempt $attempt..."
+
+            if curl --fail --silent --show-error \
+              http://localhost:5000/health; then
+              echo ""
+              echo "Application is healthy."
+              exit 0
+            fi
+
+            sleep 3
+          done
+
+          echo "Application did not become healthy."
+          docker compose ps
+          docker compose logs
+          exit 1
+
+      # Runs even when another step fails
+      - name: Stop containers
+        if: always()
+        run: docker compose down --volumes --remove-orphans
