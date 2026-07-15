@@ -29,10 +29,6 @@ app.listen(PORT, () => {
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'index.html'));
-// });
-
 app.post("/submit", async (req, res) => {
   console.log("Dado recebido do frontend:", req.body);
   try {
@@ -46,6 +42,12 @@ app.post("/submit", async (req, res) => {
     console.error("Erro ao salvar no banco:", error);
     res.status(500).json({ status: "error", message: "Erro interno ao salvar." });
   }
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy"
+  });
 });
 
 app.get("/entries", async (req, res) => {

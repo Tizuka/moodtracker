@@ -12,7 +12,6 @@ async function loadEntries() {
         }
 
         container.innerHTML = "";
-        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
         entries.forEach(entry => {
             const dateObj = new Date(entry.createdAt);
