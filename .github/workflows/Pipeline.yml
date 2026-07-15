@@ -26,10 +26,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+  security:
+    runs-on: ubuntu-latest
+
+    steps:        
       # Number 7: Checks dependencies for known vulnerabilities
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
+  build:
+    runs-on: ubuntu-latest     
+
+    steps:
       # Number 8: Validates compose.yaml
       - name: Validate Docker Compose
         run: docker compose config --quiet
