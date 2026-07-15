@@ -27,6 +27,7 @@ jobs:
         run: npm ci
 
   security:
+    needs: verify
     runs-on: ubuntu-latest
 
     steps:        
@@ -34,7 +35,8 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
-  build:
+  build:  
+    needs: [verify, security]
     runs-on: ubuntu-latest     
 
     steps:
