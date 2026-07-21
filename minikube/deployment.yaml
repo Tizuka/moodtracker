@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  selector:
+    matchLabels:
+      app: batata-doce
+  replicas: 2 # diz ao deployment para executar 2 pods que correspondam ao modelo
+  template:
+    metadata:
+      labels:
+        app: batata-doce
+    spec:
+      containers:
+        - name: projeto-devops
+          image: devops-server:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGO_URI
+              # Note o "mongo-service": o Express acha o banco pelo NOME DO SERVICE do Mongo!
+              value: "mongodb://mongodb-service:27017/moodtracker"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+spec:
+  selector:
+    app: batata-doce
+  ports:
+    - port: 4000
+      targetPort: 4000
