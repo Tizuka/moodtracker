@@ -1,0 +1,10 @@
+// 
+
+1. O problema que resolve: Sem isso, se o Pod do 
+MongoDB reiniciar por qualquer motivo, todos os seus
+ dados e coleções somem.
+
+ #Como funciona: O PersistentVolumeClaim (PVC) pede
+  ao Minikube um "disco rígido" do seu computador.
+   O MongoDB grava tudo nesse disco, então o dado 
+   sobrevive ao término do Pod.

@@ -1,38 +1,16 @@
-# syntax=docker/dockerfile:1
-
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
-ARG NODE_VERSION=24.11.0
-
-FROM node:${NODE_VERSION}-alpine
-
-# Use production node environment by default.
-ENV NODE_ENV production
-
-
+FROM node:20-alpine
 WORKDIR /usr/src/app
-
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
-# into this layer.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
-
-# Run the application as a non-root user.
+# Definir o diretório de trabalho onde os comandos subsequentes serão executados.
+# Em termos simples: ele funciona como o comando cd (change directory) do terminal, mas dentro do processo de construção da imagem do Docker.
+COPY package*.json ./
+RUN npm ci --omit=dev
+# Uses the package-lock.json file directly to install exact versions of 
+# packages, ensuring deterministic builds across environments.  Deletes any 
+# existing node_modules folder before installing.  
+COPY --chown=node:node . .
+# ex: COPY . .
+# SEM --chown: os arquivos pertencerão ao 'root'!
+# O processo Node.js rodando como 'node' pode falhar ao tentar ler/escrever arquivos.
 USER node
-
-# Copy the rest of the source files into the image.
-COPY . .
-
-# Expose the port that the application listens on.
 EXPOSE 4000
-
-# Run the application.
-CMD npm start
+CMD ["node", "app.js"]

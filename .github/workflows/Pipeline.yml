@@ -30,9 +30,9 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
 
-    steps:  
+    steps:
       - name: Checkout repository
-        uses: actions/checkout@v6     
+        uses: actions/checkout@v6
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -47,9 +47,9 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
-  build:  
-    needs: [verify, security]
-    runs-on: ubuntu-latest     
+  build:
+    needs: [security]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -63,7 +63,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-              
+
       # Number 8: Validates compose.yaml
       - name: Validate Docker Compose
         run: docker compose config --quiet
@@ -79,7 +79,13 @@ jobs:
       # Numbers 5 and 6:
       # Waits for the /health endpoint and performs a smoke test
       - name: Run smoke test
+        #Did the application start successfully?" call health? MongoDB is empty.
+        #Maybe authentication isn't configured. Maybe some unrelated feature is broken.
+        # A health endpoint is intentionally tiny.
         shell: bash
+        #The | means Everything below is one Bash script.
+        #DONE and FI is used to say the loop is finished like a bracket
+        #bash expects commands return 0 for success and non-zero for failure.
         run: |
           for attempt in {1..20}; do
             echo "Health check attempt $attempt..."
@@ -92,7 +98,7 @@ jobs:
             fi
 
             sleep 3
-          done
+          done 
 
           echo "Application did not become healthy."
           docker compose ps
@@ -103,3 +109,6 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose down --volumes --remove-orphans
+        # always - Even if previous steps failed, execute this step."
+        #When you do docker compose down, container is removed but volumes allow you to keep the data. --volumes removes the volumes too.
+        ##--remove-orphans removes containers that are not defined in the compose file.
