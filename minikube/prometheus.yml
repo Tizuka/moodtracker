@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "node-server"
+    metrics_path: "/metrics"
+    static_configs:
+      # 'server:4000' usa o nome do serviço do seu compose e a porta INTERNA do Node
+      - targets: ["server:4000"]

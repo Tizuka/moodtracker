@@ -1,22 +1,16 @@
 FROM node:20-alpine
-
-# Define a pasta de trabalho
 WORKDIR /usr/src/app
-
-# Copia os arquivos de dependência PRIMEIRO
+# Definir o diretório de trabalho onde os comandos subsequentes serão executados.
+# Em termos simples: ele funciona como o comando cd (change directory) do terminal, mas dentro do processo de construção da imagem do Docker.
 COPY package*.json ./
-
-# Instala apenas as dependências de produção
 RUN npm ci --omit=dev
-
-# Copia TODOS os arquivos do projeto para o container
+# Uses the package-lock.json file directly to install exact versions of 
+# packages, ensuring deterministic builds across environments.  Deletes any 
+# existing node_modules folder before installing.  
 COPY --chown=node:node . .
-
-# Muda para o usuário sem privilégios por segurança
+# ex: COPY . .
+# SEM --chown: os arquivos pertencerão ao 'root'!
+# O processo Node.js rodando como 'node' pode falhar ao tentar ler/escrever arquivos.
 USER node
-
-# Porta que a aplicação escuta
 EXPOSE 4000
-
-# Comando para iniciar a aplicação
 CMD ["node", "app.js"]

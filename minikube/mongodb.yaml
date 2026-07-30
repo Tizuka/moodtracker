@@ -1,38 +1,3 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mongo-deployment
-spec:
-  selector:
-    matchLabels:
-      app: mongodb-service
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: mongodb-service
-    spec:
-      containers:
-        - name: mongodb
-          image: mongo:latest
-          ports:
-            - containerPort: 27017
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongodb-service
-spec:
-  selector:
-    app: mongodb-service
-  ports:
-    - port: 27017 # Porta publica interna Service
-      targetPort: 27017
----
-# 1. Persistência de Dados (PVC) — Salvar os dados do Mongo
-# O problema que resolve: Sem isso, se o Pod do MongoDB reiniciar por qualquer motivo, todos os seus dados e coleções somem.
-# Como funciona: O PersistentVolumeClaim (PVC) pede ao Minikube um "disco rígido" do seu computador. O MongoDB grava tudo nesse disco, então o dado sobrevive ao término do Pod.
-
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -44,14 +9,40 @@ spec:
     requests:
       storage: 1Gi
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
 spec:
-  containers:
-    - name: mongo
-      image: mongo:latest
-      volumeMounts:
+  selector:
+    matchLabels:
+      app: mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+      volumes:
         - name: mongo-storage
-          mountPath: /data/db
-  volumes:
-    - name: mongo-storage
-      persistentVolumeClaim:
-        claimName: mongo-pvc
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
