@@ -1,19 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: deployment-name
+  # criando um Deploymentrecurso que gerencia Pods automaticamente
 spec:
   selector:
     matchLabels:
-      app: batata-doce
+      app: pods-under-deployment
+      # sse Deployment controla Pods que possuem a label app=deployment-pods-management.
   replicas: 2
   template:
     metadata:
       labels:
-        app: batata-doce
+        app: pods-under-deployment
+        # criacao da label para o Pod, que sera controlado pelo Deployment.
     spec:
       containers:
-        - name: projeto-devops
+        # o nome do container.
+        - name: container-name
           image: devops-server:v2
           imagePullPolicy: Never
           ports:
@@ -23,6 +27,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
+                  # servico que referencia o arquivo de secrets.yaml
                   key: MONGO_URI
 
           # [OBSERVABILIDADE] Health checks
@@ -42,11 +47,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service
+  name: code-deployment-service-name
 spec:
   type: NodePort
   selector:
-    app: batata-doce
+    app: pods-under-deployment
   ports:
     - port: 4000
       targetPort: 4000
