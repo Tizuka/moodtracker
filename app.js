@@ -13,11 +13,14 @@ app.use(express.static(path.join(__dirname, "public")));
 //"Whenever someone asks for a file, search inside this folder."
 // Aceita MONGO_URI ou MONGODB_URI, com fallback padrão do Docker Compose
 const mongoURI = process.env.MONGO_URI || 'mongodb://mongo:27017/moodtracker';
+//"Conecte-se ao servidor MongoDB e use o banco chamado moodtracker."
 
 client.collectDefaultMetrics();
 // Connect to MongoDB
 mongoose.connect(mongoURI)
   .then(() => console.log("Conectado ao MongoDB com sucesso!"))
+  //aqui ele se conecta ao mongo /moodtracker com a base de dados que vai salvar os dados
+  //ele espera uma resposta do banco de dados, se for su
   .catch((err) => console.error("Erro ao conectar ao MongoDB:", err));
 
 const MoodSchema = new mongoose.Schema({
@@ -77,7 +80,7 @@ app.get('/metrics', async (req, res) => {
   res.send(await client.register.metrics());
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on ${PORT}`);
 });
 
