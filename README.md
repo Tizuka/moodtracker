@@ -34,11 +34,12 @@ kubectl version --client
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Tizuka/teste.git
+git clone https://github.com/Tizuka/moodtracker.git
 cd teste
 ```
 
 ### 2. Start the application
+obs: Let docker open while executing this command
 
 ```bash
 docker compose up --build
@@ -123,17 +124,16 @@ devops-server   v2
 Apply the Kubernetes configuration files:
 
 ```bash
-kubectl apply -f kubernetes/
+kubectl apply -f minikube/
 ```
-
-If the Kubernetes YAML files are stored in another directory, replace `kubernetes/` with the correct directory name.
 
 You can also apply the files individually:
 
 ```bash
 kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl apply -f ingress.yaml
+kubectl apply -f mongodb.yaml
+kubectl apply -f prometheus.yaml
+kubectl apply -f secrets.yaml
 ```
 
 If the project uses ConfigMaps or Secrets, apply those manifests as well.
