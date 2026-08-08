@@ -8,6 +8,8 @@ Install these applications before starting:
 
 * [Git](https://git-scm.com/downloads)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+-- And if you want to test Kubernetes:
 * [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
 
